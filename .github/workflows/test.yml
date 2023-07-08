@@ -45,7 +45,7 @@ jobs:
                 "assignee":{
                   "id":"608000ea074a0b006a77f40f"
                 },
-                "summary": "Review distilled sites results - "::set-output name=date::$(date +'%Y-%m-%d')"",
+                "summary": "Review distilled sites results - $(date +'%Y-%m-%d')",
                 "description": {
                   "type": "doc",
                   "version": 1,
