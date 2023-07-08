@@ -20,13 +20,25 @@ jobs:
           echo "branch: ${{ github.ref_name }}"
           echo "run_id: ${{ github.run_id }}"
 
+      # - name: Get issue types
+      #   run: |
+      #     curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+      #       --header 'Accept: application/json' \
+      #       --request GET \
+      #       --url 'https://ce-platform.atlassian.net/rest/api/3/project/${{ secrets.JIRA_PROJECT_KEY }}' | jq '.issueTypes[] | {id, name}'
+      #     echo "TASK_ID=$(cat temp-tokens.txt)" >> $GITHUB_ENV
+
       - name: Get issue types
+        id: issueTypes
         run: |
-          curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+          ISSUE_TYPES=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
             --header 'Accept: application/json' \
             --request GET \
-            --url 'https://ce-platform.atlassian.net/rest/api/3/project/${{ secrets.JIRA_PROJECT_KEY }}' | jq '.issueTypes[] | {id, name}'
-  
+            --url 'https://ce-platform.atlassian.net/rest/api/3/project/${{ secrets.JIRA_PROJECT_KEY }}' | jq '.issueTypes[] | {id, name}')
+
+          TASK_ISSUE_TYPE_ID=$(echo "$ISSUE_TYPES" | jq -r 'select(.name == "Task").id')
+          echo "TASK_ISSUE_TYPE_ID=$TASK_ISSUE_TYPE_ID" >> $GITHUB_ENV
+
       - name: Create Jira Issue
         run: |
           curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
@@ -59,7 +71,7 @@ jobs:
                   ]
                 },
                 "issuetype": {
-                  "id": "3"
+                  "id": "${{ env.TASK_ISSUE_TYPE_ID }}"
                 }
               },
               "update": {}
