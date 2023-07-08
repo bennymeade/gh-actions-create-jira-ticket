@@ -71,6 +71,12 @@ jobs:
       #   env:
       #     JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
 
+      - name: Set current date
+        id: set-date
+        run: |
+          echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+
       - name: Create Jira Issue
         run: |
           echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
@@ -87,7 +93,7 @@ jobs:
                 "assignee": {
                   "id": "608000ea074a0b006a77f40f"
                 },
-                "summary": "Review distilled sites results - ${{ env.CURRENT_DATE }}",
+                "summary": "Review distilled sites results - ${{ steps.set-date.outputs.date }}",
                 "description": {
                   "type": "doc",
                   "version": 1,
