@@ -33,7 +33,7 @@ jobs:
       - name: Create Jira Issue
         run: |
           echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
-          curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+          curl --silent --user '***:***' \
             --header 'Accept: application/json' \
             --header 'Content-Type: application/json' \
             --request POST \
@@ -41,10 +41,10 @@ jobs:
             --data '{
               "fields": {
                 "project": {
-                  "key": "UNBO"
+                  "key": "***"
                 },
-                "assignee":{
-                  "id":"608000ea074a0b006a77f40f"
+                "assignee": {
+                  "id": "608000ea074a0b006a77f40f"
                 },
                 "summary": "Review distilled sites results - ${{ env.CURRENT_DATE }}",
                 "description": {
@@ -55,15 +55,15 @@ jobs:
                       "type": "paragraph",
                       "content": [
                         {
-                          "text": "Build URL: ${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}  ",
+                          "text": "Build URL: ***/actions/runs/5496407679  ",
                           "type": "text"
                         }
-                      ]ß
+                      ]
                     }
                   ]
                 },
                 "issuetype": {
-                  "id": "${{ env.TASK_ISSUE_TYPE_ID }}"
+                  "id": "3"
                 }
               },
               "update": {}
