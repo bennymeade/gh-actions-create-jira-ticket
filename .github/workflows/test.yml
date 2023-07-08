@@ -55,7 +55,7 @@ jobs:
                       "type": "paragraph",
                       "content": [
                         {
-                          "text": "Build URL: ***/actions/runs/5496407679  ",
+                          "text": "Build URL: ${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}  ",
                           "type": "text"
                         }
                       ]
@@ -63,7 +63,7 @@ jobs:
                   ]
                 },
                 "issuetype": {
-                  "id": "3"
+                  "id": "${{ env.TASK_ISSUE_TYPE_ID }}"
                 }
               },
               "update": {}
