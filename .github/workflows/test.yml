@@ -32,6 +32,7 @@ jobs:
 
       - name: Create Jira Issue
         run: |
+          echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
           curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
             --header 'Accept: application/json' \
             --header 'Content-Type: application/json' \
@@ -45,7 +46,7 @@ jobs:
                 "assignee":{
                   "id":"608000ea074a0b006a77f40f"
                 },
-                "summary": "Review distilled sites results - $(date +'%Y-%m-%d')",
+                "summary": "Review distilled sites results - $CURRENT_DATE",
                 "description": {
                   "type": "doc",
                   "version": 1,
@@ -57,7 +58,7 @@ jobs:
                           "text": "Build URL: ${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}  ",
                           "type": "text"
                         }
-                      ]
+                      ]ß
                     }
                   ]
                 },
