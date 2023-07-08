@@ -20,12 +20,12 @@ jobs:
           echo "branch: ${{ github.ref_name }}"
           echo "run_id: ${{ github.run_id }}"
 
-          - name: Get issue types
-          run: |
-            curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
-              --header 'Accept: application/json' \
-              --request GET \
-              --url 'https://ce-platform.atlassian.net/rest/api/3/project/${{ secrets.JIRA_PROJECT_KEY }}' | jq '.issueTypes[] | {id, name}'
+      - name: Get issue types
+        run: |
+          curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+            --header 'Accept: application/json' \
+            --request GET \
+            --url 'https://ce-platform.atlassian.net/rest/api/3/project/${{ secrets.JIRA_PROJECT_KEY }}' | jq '.issueTypes[] | {id, name}'
   
       - name: Create Jira Issue
         run: |
@@ -51,7 +51,7 @@ jobs:
                       "type": "paragraph",
                       "content": [
                         {
-                          "text": "Build URL: ${{ secrets.JIRA_BASE_URL }}/actions/runs/${{ github.run_id }}  ",
+                          "text": "Build URL: ${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}  ",
                           "type": "text"
                         }
                       ]
