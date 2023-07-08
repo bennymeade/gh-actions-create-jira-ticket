@@ -46,7 +46,7 @@ jobs:
                 "assignee":{
                   "id":"608000ea074a0b006a77f40f"
                 },
-                "summary": "Review distilled sites results - $CURRENT_DATE",
+                "summary": "Review distilled sites results - ${{ env.CURRENT_DATE }}",
                 "description": {
                   "type": "doc",
                   "version": 1,
