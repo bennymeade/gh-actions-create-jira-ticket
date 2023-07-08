@@ -77,12 +77,12 @@ jobs:
           json_body='{
             "fields": {
               "project": {
-                "key": "'${{ secrets.JIRA_PROJECT_KEY }}'"
+                "key": "${{ secrets.JIRA_PROJECT_KEY }}"
               },
               "assignee": {
                 "id": "608000ea074a0b006a77f40f"
               },
-              "summary": "Review distilled sites results - '"${{ env.CURRENT_DATE }}"'",
+              "summary": "Review distilled sites results - ${{ env.CURRENT_DATE }}",
               "description": {
                 "type": "doc",
                 "version": 1,
@@ -91,7 +91,7 @@ jobs:
                     "type": "paragraph",
                     "content": [
                       {
-                        "text": "Build URL: '"${{ secrets.GH_BASE_URL }}"/actions/runs/'"${{ github.run_id }}"'",
+                        "text": "Build URL: ${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}",
                         "type": "text"
                       }
                     ]
@@ -99,7 +99,7 @@ jobs:
                 ]
               },
               "issuetype": {
-                "id": "'${{ env.TASK_ISSUE_TYPE_ID }}'"
+                "id": "${{ env.TASK_ISSUE_TYPE_ID }}"
               }
             },
             "update": {}
@@ -109,7 +109,7 @@ jobs:
             --header 'Content-Type: application/json' \
             --request POST \
             --url 'https://ce-platform.atlassian.net/rest/api/3/issue' \
-            --data "$json_body"
+            --data $json_body
         env:
           TASK_ISSUE_TYPE_ID: ${{ env.TASK_ISSUE_TYPE_ID }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
