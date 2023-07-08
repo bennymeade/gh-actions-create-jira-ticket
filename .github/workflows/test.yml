@@ -1,0 +1,68 @@
+name: 'GH Actions create Jira ticket'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: Cypress & Percy Tests
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [18]
+
+    steps:
+      - name: Show inputs
+        run: |
+          echo "branch: ${{ github.ref_name }}"
+          echo "run_id: ${{ github.run_id }}"
+
+          - name: Get issue types
+          run: |
+            curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+              --header 'Accept: application/json' \
+              --request GET \
+              --url 'https://ce-platform.atlassian.net/rest/api/3/project/${{ secrets.JIRA_PROJECT_KEY }}' | jq '.issueTypes[] | {id, name}'
+  
+      - name: Create Jira Issue
+        run: |
+          curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --request POST \
+            --url 'https://ce-platform.atlassian.net/rest/api/3/issue' \
+            --data '{
+              "fields": {
+                "project": {
+                  "key": "UNBO"
+                },
+                "assignee":{
+                  "id":"608000ea074a0b006a77f40f"
+                },
+                "summary": "Review distilled sites results - ${{ steps.date.outputs.date }}",
+                "description": {
+                  "type": "doc",
+                  "version": 1,
+                  "content": [
+                    {
+                      "type": "paragraph",
+                      "content": [
+                        {
+                          "text": "Build URL: ${{ secrets.JIRA_BASE_URL }}/actions/runs/${{ github.run_id }}  ",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "issuetype": {
+                  "id": "3"
+                }
+              },
+              "update": {}
+            }'
+        env:
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
