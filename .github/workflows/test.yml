@@ -33,11 +33,15 @@ jobs:
       - name: Get latest active sprint ID
         id: latest-sprint
         run: |
-          response=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+          # response=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+          #   --header 'Accept: application/json' \
+          #   --request GET \
+          #   --url 'https://ce-platform.atlassian.net/rest/agile/1.0/board/2656/sprint?state=active' \
+          # )
+          curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
             --header 'Accept: application/json' \
             --request GET \
             --url 'https://ce-platform.atlassian.net/rest/agile/1.0/board/2656/sprint?state=active' \
-          )
           # latest_sprint_id=$(echo "$response" | jq -r '.values | sort_by(.startDate) | last | .id')
           # echo "LATEST_SPRINT_ID=$latest_sprint_id" >> $GITHUB_ENV
           # echo "${{ env.LATEST_SPRINT_ID }}"
