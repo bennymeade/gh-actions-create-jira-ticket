@@ -67,7 +67,7 @@ jobs:
                   "key": "${{ secrets.JIRA_PROJECT_KEY }}"
                 },
                 "assignee": {
-                  "id": "${{ secrets.JIRA_ASSIGNEE_EMAIL }}"
+                  "id": "${{ secrets.JIRA_ASSIGNEE_ID }}"
                 },
                 "summary": "Review distilled sites results - ${{ env.DATE_TODAY }}",
                 "description": {
