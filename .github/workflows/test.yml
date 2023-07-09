@@ -38,9 +38,9 @@ jobs:
             --request GET \
             --url 'https://ce-platform.atlassian.net/rest/agile/1.0/board/2656/sprint?state=active' \
           )
-          latest_sprint_id=$(echo "$response" | jq -r '.values | sort_by(.startDate) | last | .id')
-          echo "LATEST_SPRINT_ID=$latest_sprint_id" >> $GITHUB_ENV
-          echo "${{ env.LATEST_SPRINT_ID }}"
+          # latest_sprint_id=$(echo "$response" | jq -r '.values | sort_by(.startDate) | last | .id')
+          # echo "LATEST_SPRINT_ID=$latest_sprint_id" >> $GITHUB_ENV
+          # echo "${{ env.LATEST_SPRINT_ID }}"
 
       - name: Get issue type 'Task' ID
         id: issueTypes
