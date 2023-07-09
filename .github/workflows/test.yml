@@ -86,7 +86,7 @@ jobs:
                         },
                         {
                           "type": "text",
-                          "text": "insert link",
+                          "text": "${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}",
                           "marks":[
                               {
                                 "type": "link",
