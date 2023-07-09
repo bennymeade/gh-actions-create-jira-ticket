@@ -81,13 +81,25 @@ jobs:
                       "type": "paragraph",
                       "content": [
                         {
-                          "text": "${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}\n",
-                          "type": "text"
+                          "type": "text",
+                          "text": "Build URL: "
+                        },
+                        {
+                          "type": "link",
+                          "attrs": {
+                            "href": "${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}"
+                          },
+                          "content": [
+                            {
+                              "type": "text",
+                              "text": "Go to Workflow Run"
+                            }
+                          ]
                         }
                       ]
                     }
                   ]
-                },
+                },                
                 "issuetype": {
                   "id": "${{ env.TASK_ISSUE_TYPE_ID }}"
                 },
