@@ -30,6 +30,11 @@ jobs:
         node: [18]
 
     steps:
+      - name: Set current date
+        id: set-date
+        run: |
+          echo "DATE_TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
       - name: Get latest active sprint ID
         id: latest-sprint
         run: |
@@ -52,11 +57,6 @@ jobs:
           TASK_ISSUE_TYPE_ID=$(echo "$ISSUE_TYPES" | jq -r 'select(.name == "Task").id')
           echo "TASK_ISSUE_TYPE_ID=$TASK_ISSUE_TYPE_ID" >> $GITHUB_ENV
 
-      - name: Set current date
-        id: set-date
-        run: |
-          echo "::set-output name=date::$(date +'%Y-%m-%d')"
-
       - name: Create Jira Issue
         run: |
           curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
@@ -72,7 +72,7 @@ jobs:
                 "assignee": {
                   "id": "608000ea074a0b006a77f40f"
                 },
-                "summary": "Review distilled sites results - ${{ steps.set-date.outputs.date }}",
+                "summary": "Review distilled sites results - ${{ env.DATE_TODAY }}"",
                 "description": {
                   "type": "doc",
                   "version": 1,
