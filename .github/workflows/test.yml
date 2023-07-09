@@ -92,7 +92,7 @@ jobs:
                 "issuetype": {
                   "id": "${{ env.TASK_ISSUE_TYPE_ID }}"
                 },
-                "Sprint": "${{ env.LATEST_SPRINT_ID }}"
+                "sprint": "${{ env.LATEST_SPRINT_ID }}"
               },
               "update": {}
             }'
