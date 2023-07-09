@@ -148,7 +148,7 @@ jobs:
                 # "customfield_10007": {
                 #   "id": ${{ env.LATEST_SPRINT_ID }}
                 # }
-                "customfield_10007": LATEST_SPRINT_ID
+                "customfield_10007": ${{ env.LATEST_SPRINT_ID }}
               },
               "update": {}
             }'
