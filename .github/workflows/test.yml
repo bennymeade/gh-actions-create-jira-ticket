@@ -24,7 +24,7 @@ jobs:
 
   jira:
     needs: tests
-    if: always()
+    # if: always()
 
     runs-on: ${{ matrix.os }}
 
