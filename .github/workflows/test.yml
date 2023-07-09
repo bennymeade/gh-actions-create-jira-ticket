@@ -65,7 +65,7 @@ jobs:
           board_response=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
             --header 'Accept: application/json' \
             --request GET \
-            --url 'https://ce-platform.atlassian.net/rest/agile/1.0/board?projectKey=YOUR_PROJECT_KEY')
+            --url 'https://ce-platform.atlassian.net/rest/agile/1.0/board?projectKey=${{ secrets.JIRA_PROJECT_KEY }}')
           echo "Board Response: $board_response"
 
           board_id=$(echo "$board_response" | jq -r '.values[0].id')
@@ -94,53 +94,53 @@ jobs:
       #     echo "TASK_ISSUE_TYPE_ID=$TASK_ISSUE_TYPE_ID" >> $GITHUB_ENV
 
       # - name: Create Jira Issue
-        run: |
-          curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
-            --header 'Accept: application/json' \
-            --header 'Content-Type: application/json' \
-            --request POST \
-            --url 'https://ce-platform.atlassian.net/rest/api/3/issue' \
-            --data '{
-              "fields": {
-                "project": {
-                  "key": "${{ secrets.JIRA_PROJECT_KEY }}"
-                },
-                "assignee": {
-                  "id": "608000ea074a0b006a77f40f"
-                },
-                "summary": "Review distilled sites results - ${{ env.DATE_TODAY }}",
-                "description": {
-                  "type": "doc",
-                  "version": 1,
-                  "content":[
-                  {
-                    "type": "paragraph",
-                    "content":[
-                        {
-                          "type": "text",
-                          "text": "GitHub build URL: "
-                        },
-                        {
-                          "type": "text",
-                          "text": "${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}",
-                          "marks":[
-                              {
-                                "type": "link",
-                                "attrs":{
-                                  "href": "${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}"
-                                }
-                              }
-                          ]
-                        }
-                    ]
-                  }
-                ]
-                },                
-                "issuetype": {
-                  "id": "${{ env.TASK_ISSUE_TYPE_ID }}"
-                },
-                "customfield_10007": ${{ env.LATEST_SPRINT_ID }}
-              },
-              "update": {}
-            }'
+      #   run: |
+      #     curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+      #       --header 'Accept: application/json' \
+      #       --header 'Content-Type: application/json' \
+      #       --request POST \
+      #       --url 'https://ce-platform.atlassian.net/rest/api/3/issue' \
+      #       --data '{
+      #         "fields": {
+      #           "project": {
+      #             "key": "${{ secrets.JIRA_PROJECT_KEY }}"
+      #           },
+      #           "assignee": {
+      #             "id": "608000ea074a0b006a77f40f"
+      #           },
+      #           "summary": "Review distilled sites results - ${{ env.DATE_TODAY }}",
+      #           "description": {
+      #             "type": "doc",
+      #             "version": 1,
+      #             "content":[
+      #             {
+      #               "type": "paragraph",
+      #               "content":[
+      #                   {
+      #                     "type": "text",
+      #                     "text": "GitHub build URL: "
+      #                   },
+      #                   {
+      #                     "type": "text",
+      #                     "text": "${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}",
+      #                     "marks":[
+      #                         {
+      #                           "type": "link",
+      #                           "attrs":{
+      #                             "href": "${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}"
+      #                           }
+      #                         }
+      #                     ]
+      #                   }
+      #               ]
+      #             }
+      #           ]
+      #           },                
+      #           "issuetype": {
+      #             "id": "${{ env.TASK_ISSUE_TYPE_ID }}"
+      #           },
+      #           "customfield_10007": ${{ env.LATEST_SPRINT_ID }}
+      #         },
+      #         "update": {}
+      #       }'
 
