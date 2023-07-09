@@ -38,31 +38,39 @@ jobs:
           #   --request GET \
           #   --url 'https://ce-platform.atlassian.net/rest/agile/1.0/board/2656/sprint?state=active' \
           # )
-          curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
-            --header 'Accept: application/json' \
-            --request GET \
-            --url 'https://ce-platform.atlassian.net/rest/agile/1.0/board/2656/sprint?state=active' \
+          # curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+          #   --header 'Accept: application/json' \
+          #   --request GET \
+          #   --url 'https://ce-platform.atlassian.net/rest/agile/1.0/board/2656/sprint?state=active' \
           # latest_sprint_id=$(echo "$response" | jq -r '.values | sort_by(.startDate) | last | .id')
           # echo "LATEST_SPRINT_ID=$latest_sprint_id" >> $GITHUB_ENV
           # echo "${{ env.LATEST_SPRINT_ID }}"
+          response=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+            --header 'Accept: application/json' \
+            --request GET \
+            --url 'https://ce-platform.atlassian.net/rest/agile/1.0/board/2656/sprint?state=active' \
+          )
+          latest_sprint_id=$(echo "$response" | jq -r '.values[0].id')
+          echo "LATEST_SPRINT_ID=$latest_sprint_id" >> $GITHUB_ENV
 
-      # - name: Get issue type 'Task' ID
-      #   id: issueTypes
-      #   run: |
-      #     ISSUE_TYPES=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
-      #       --header 'Accept: application/json' \
-      #       --request GET \
-      #       --url 'https://ce-platform.atlassian.net/rest/api/3/project/${{ secrets.JIRA_PROJECT_KEY }}' | jq '.issueTypes[] | {id, name}')
 
-      #     TASK_ISSUE_TYPE_ID=$(echo "$ISSUE_TYPES" | jq -r 'select(.name == "Task").id')
-      #     echo "TASK_ISSUE_TYPE_ID=$TASK_ISSUE_TYPE_ID" >> $GITHUB_ENV
+      - name: Get issue type 'Task' ID
+        id: issueTypes
+        run: |
+          ISSUE_TYPES=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+            --header 'Accept: application/json' \
+            --request GET \
+            --url 'https://ce-platform.atlassian.net/rest/api/3/project/${{ secrets.JIRA_PROJECT_KEY }}' | jq '.issueTypes[] | {id, name}')
 
-      # - name: Set current date
-      #   id: set-date
-      #   run: |
-      #     echo "::set-output name=date::$(date +'%Y-%m-%d')"
+          TASK_ISSUE_TYPE_ID=$(echo "$ISSUE_TYPES" | jq -r 'select(.name == "Task").id')
+          echo "TASK_ISSUE_TYPE_ID=$TASK_ISSUE_TYPE_ID" >> $GITHUB_ENV
 
-      # - name: Create Jira Issue
+      - name: Set current date
+        id: set-date
+        run: |
+          echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+      - name: Create Jira Issue
       #   run: |
       #     echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
       #     curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
@@ -104,6 +112,48 @@ jobs:
       #   env:
       #     TASK_ISSUE_TYPE_ID: ${{ env.TASK_ISSUE_TYPE_ID }}
       #     JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        run: |
+          curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --request POST \
+            --url 'https://ce-platform.atlassian.net/rest/api/3/issue' \
+            --data '{
+              "fields": {
+                "project": {
+                  "key": "${{ secrets.JIRA_PROJECT_KEY }}"
+                },
+                "assignee": {
+                  "id": "608000ea074a0b006a77f40f"
+                },
+                "summary": "Review distilled sites results - ${{ steps.set-date.outputs.date }}",
+                "description": {
+                  "type": "doc",
+                  "version": 1,
+                  "content": [
+                    {
+                      "type": "paragraph",
+                      "content": [
+                        {
+                          "text": "Build URL: ${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "issuetype": {
+                  "id": "${{ env.TASK_ISSUE_TYPE_ID }}"
+                },
+                "customfield_10000": "${{ env.LATEST_SPRINT_ID }}"
+              },
+              "update": {}
+            }'
+        env:
+          TASK_ISSUE_TYPE_ID: ${{ env.TASK_ISSUE_TYPE_ID }}
+          LATEST_SPRINT_ID: ${{ env.LATEST_SPRINT_ID }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
       
     
     
