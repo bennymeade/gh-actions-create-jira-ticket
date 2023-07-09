@@ -34,15 +34,32 @@ jobs:
         run: |
           echo "DATE_TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
+      # - name: Get latest active sprint ID
+      #   run: |
+      #     response=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+      #       --header 'Accept: application/json' \
+      #       --request GET \
+      #       --url 'https://ce-platform.atlassian.net/rest/agile/1.0/board/2656/sprint?state=active' \
+      #     )
+      #     latest_sprint_id=$(echo "$response" | jq -r '.values[0].id')
+      #     echo "LATEST_SPRINT_ID=$latest_sprint_id" >> $GITHUB_ENV
+
       - name: Get latest active sprint ID
         run: |
-          response=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+          board_response=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
             --header 'Accept: application/json' \
             --request GET \
-            --url 'https://ce-platform.atlassian.net/rest/agile/1.0/board/2656/sprint?state=active' \
-          )
-          latest_sprint_id=$(echo "$response" | jq -r '.values[0].id')
+            --url 'https://ce-platform.atlassian.net/rest/agile/1.0/board?projectKey=${{ secrets.JIRA_PROJECT_KEY }}')
+          board_id=$(echo "$board_response" | jq -r '.values[0].id')
+
+          sprint_response=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+            --header 'Accept: application/json' \
+            --request GET \
+            --url "https://ce-platform.atlassian.net/rest/agile/1.0/board/$board_id/sprint?state=active")
+          latest_sprint_id=$(echo "$sprint_response" | jq -r '.values[0].id')
+
           echo "LATEST_SPRINT_ID=$latest_sprint_id" >> $GITHUB_ENV
+
 
       - name: Get issue type 'Task' ID
         run: |
