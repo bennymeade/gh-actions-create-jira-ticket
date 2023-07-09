@@ -76,7 +76,7 @@ jobs:
                 "description": {
                   "type": "doc",
                   "version": 1,
-                  "content": [
+                  "content":[
                   {
                     "type": "paragraph",
                     "content":[
@@ -98,6 +98,23 @@ jobs:
                         }
                     ]
                   },
+                  {
+                    "type":"paragraph",
+                    "content":[   
+                    ]
+                  },
+                  {
+                    "type":"codeBlock",
+                    "attrs":{
+                        
+                    },
+                    "content":[
+                        {
+                          "type": "text",
+                          "text": "Go to Workflow Run"
+                        }
+                    ]
+                  }
                 ]
                 },                
                 "issuetype": {
