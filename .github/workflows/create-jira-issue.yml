@@ -1,4 +1,4 @@
-name: 'GH Actions create Jira ticket'
+name: 'GH Actions create Jira issue'
 
 on:
   workflow_dispatch:
