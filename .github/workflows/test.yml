@@ -76,29 +76,46 @@ jobs:
                 "description": {
                   "type": "doc",
                   "version": 1,
-                  "content": [
-                    {
-                      "type": "paragraph",
-                      "content": [
+                  "content":[
+                  {
+                    "type":"paragraph",
+                    "content":[
                         {
-                          "type": "text",
+                          "type":"text",
                           "text": "Build URL: "
                         },
                         {
-                          "type": "link",
-                          "attrs": {
-                            "href": "${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}"
-                          },
-                          "content": [
-                            {
-                              "type": "text",
-                              "text": "Go to Workflow Run"
-                            }
+                          "type":"text",
+                          "text":"insert link",
+                          "marks":[
+                              {
+                                "type":"link",
+                                "attrs":{
+                                  "href": "${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}"
+                                }
+                              }
                           ]
                         }
-                      ]
-                    }
-                  ]
+                    ]
+                  },
+                  {
+                    "type":"paragraph",
+                    "content":[   
+                    ]
+                  },
+                  {
+                    "type":"codeBlock",
+                    "attrs":{
+                        
+                    },
+                    "content":[
+                        {
+                          "type": "text",
+                          "text": "Go to Workflow Run"
+                        }
+                    ]
+                  }
+                ]
                 },                
                 "issuetype": {
                   "id": "${{ env.TASK_ISSUE_TYPE_ID }}"
