@@ -97,23 +97,6 @@ jobs:
                           ]
                         }
                     ]
-                  },
-                  {
-                    "type":"paragraph",
-                    "content":[   
-                    ]
-                  },
-                  {
-                    "type":"codeBlock",
-                    "attrs":{
-                        
-                    },
-                    "content":[
-                        {
-                          "type": "text",
-                          "text": "Go to Workflow Run"
-                        }
-                    ]
                   }
                 ]
                 },                
@@ -128,7 +111,3 @@ jobs:
           TASK_ISSUE_TYPE_ID: ${{ env.TASK_ISSUE_TYPE_ID }}
           LATEST_SPRINT_ID: ${{ env.LATEST_SPRINT_ID }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-
-      
-    
-    
