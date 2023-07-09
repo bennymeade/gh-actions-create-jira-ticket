@@ -16,8 +16,8 @@ jobs:
         run: |
           echo "run_id: ${{ github.run_id }}"
 
-      - name: Fail step intentionally
-        run: exit 1
+      # - name: Fail step intentionally
+      #   run: exit 1
 
   jira:
     needs: tests
