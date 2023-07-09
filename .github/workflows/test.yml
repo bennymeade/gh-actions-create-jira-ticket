@@ -78,18 +78,18 @@ jobs:
                   "version": 1,
                   "content":[
                   {
-                    "type":"paragraph",
+                    "type": "paragraph",
                     "content":[
                         {
-                          "type":"text",
+                          "type": "text",
                           "text": "Build URL: "
                         },
                         {
-                          "type":"text",
-                          "text":"insert link",
+                          "type": "text",
+                          "text": "${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}"
                           "marks":[
                               {
-                                "type":"link",
+                                "type": "link",
                                 "attrs":{
                                   "href": "${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}"
                                 }
