@@ -17,8 +17,10 @@ jobs:
     steps:
       - name: Show inputs
         run: |
-          # echo "run_id: ${{ github.run_id }}"
-          echo "run_id: ${{ github.run_i_dont_exist }}"
+          echo "run_id: ${{ github.run_id }}"
+
+      - name: Fail step intentionally
+        run: exit 1
 
   jira:
     needs: tests
@@ -33,12 +35,10 @@ jobs:
 
     steps:
       - name: Set current date
-        # id: set-date
         run: |
           echo "DATE_TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Get latest active sprint ID
-        # id: latest-sprint
         run: |
           response=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
             --header 'Accept: application/json' \
@@ -49,7 +49,6 @@ jobs:
           echo "LATEST_SPRINT_ID=$latest_sprint_id" >> $GITHUB_ENV
 
       - name: Get issue type 'Task' ID
-        # id: issueTypes
         run: |
           ISSUE_TYPES=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
             --header 'Accept: application/json' \
