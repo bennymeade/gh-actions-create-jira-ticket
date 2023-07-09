@@ -44,34 +44,56 @@ jobs:
       #     latest_sprint_id=$(echo "$response" | jq -r '.values[0].id')
       #     echo "LATEST_SPRINT_ID=$latest_sprint_id" >> $GITHUB_ENV
 
+      # - name: Get latest active sprint ID
+      #   run: |
+      #     board_response=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+      #       --header 'Accept: application/json' \
+      #       --request GET \
+      #       --url 'https://ce-platform.atlassian.net/rest/agile/1.0/board?projectKey=${{ secrets.JIRA_PROJECT_KEY }}')
+      #     board_id=$(echo "$board_response" | jq -r '.values[0].id')
+
+      #     sprint_response=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+      #       --header 'Accept: application/json' \
+      #       --request GET \
+      #       --url "https://ce-platform.atlassian.net/rest/agile/1.0/board/$board_id/sprint?state=active")
+      #     latest_sprint_id=$(echo "$sprint_response" | jq -r '.values[0].id')
+
+      #     echo "LATEST_SPRINT_ID=$latest_sprint_id" >> $GITHUB_ENV
+
       - name: Get latest active sprint ID
         run: |
           board_response=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
             --header 'Accept: application/json' \
             --request GET \
-            --url 'https://ce-platform.atlassian.net/rest/agile/1.0/board?projectKey=${{ secrets.JIRA_PROJECT_KEY }}')
+            --url 'https://ce-platform.atlassian.net/rest/agile/1.0/board?projectKey=YOUR_PROJECT_KEY')
+          echo "Board Response: $board_response"
+
           board_id=$(echo "$board_response" | jq -r '.values[0].id')
 
           sprint_response=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
             --header 'Accept: application/json' \
             --request GET \
             --url "https://ce-platform.atlassian.net/rest/agile/1.0/board/$board_id/sprint?state=active")
+          echo "Sprint Response: $sprint_response"
+
           latest_sprint_id=$(echo "$sprint_response" | jq -r '.values[0].id')
+          echo "LATEST_SPRINT_ID: $latest_sprint_id"
 
           echo "LATEST_SPRINT_ID=$latest_sprint_id" >> $GITHUB_ENV
 
 
-      - name: Get issue type 'Task' ID
-        run: |
-          ISSUE_TYPES=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
-            --header 'Accept: application/json' \
-            --request GET \
-            --url 'https://ce-platform.atlassian.net/rest/api/3/project/${{ secrets.JIRA_PROJECT_KEY }}' | jq '.issueTypes[] | {id, name}')
 
-          TASK_ISSUE_TYPE_ID=$(echo "$ISSUE_TYPES" | jq -r 'select(.name == "Task").id')
-          echo "TASK_ISSUE_TYPE_ID=$TASK_ISSUE_TYPE_ID" >> $GITHUB_ENV
+      # - name: Get issue type 'Task' ID
+      #   run: |
+      #     ISSUE_TYPES=$(curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+      #       --header 'Accept: application/json' \
+      #       --request GET \
+      #       --url 'https://ce-platform.atlassian.net/rest/api/3/project/${{ secrets.JIRA_PROJECT_KEY }}' | jq '.issueTypes[] | {id, name}')
 
-      - name: Create Jira Issue
+      #     TASK_ISSUE_TYPE_ID=$(echo "$ISSUE_TYPES" | jq -r 'select(.name == "Task").id')
+      #     echo "TASK_ISSUE_TYPE_ID=$TASK_ISSUE_TYPE_ID" >> $GITHUB_ENV
+
+      # - name: Create Jira Issue
         run: |
           curl --silent --user '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
             --header 'Accept: application/json' \
