@@ -135,8 +135,8 @@ jobs:
                       "type": "paragraph",
                       "content": [
                         {
-                          "text": "Build URL: ${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}",
-                          "type": "text"
+                          "text": "${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}",
+                          "type": "href"
                         }
                       ]
                     }
