@@ -81,7 +81,7 @@ jobs:
                       "type": "paragraph",
                       "content": [
                         {
-                          "text": "${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}",
+                          "text": "${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}\n",
                           "type": "text"
                         }
                       ]
