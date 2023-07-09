@@ -82,7 +82,7 @@ jobs:
                     "content":[
                         {
                           "type": "text",
-                          "text": "Build URL: "
+                          "text": "GitHub build URL: "
                         },
                         {
                           "type": "text",
@@ -107,7 +107,7 @@ jobs:
               },
               "update": {}
             }'
-        env:
-          TASK_ISSUE_TYPE_ID: ${{ env.TASK_ISSUE_TYPE_ID }}
-          LATEST_SPRINT_ID: ${{ env.LATEST_SPRINT_ID }}
-          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        # env:
+        #   TASK_ISSUE_TYPE_ID: ${{ env.TASK_ISSUE_TYPE_ID }}
+        #   LATEST_SPRINT_ID: ${{ env.LATEST_SPRINT_ID }}
+        #   JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
