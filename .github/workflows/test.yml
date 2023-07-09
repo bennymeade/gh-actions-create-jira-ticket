@@ -76,7 +76,7 @@ jobs:
                 "description": {
                   "type": "doc",
                   "version": 1,
-                  "content":[
+                  "content": [
                   {
                     "type": "paragraph",
                     "content":[
@@ -86,7 +86,7 @@ jobs:
                         },
                         {
                           "type": "text",
-                          "text": "${{ secrets.GH_BASE_URL }}/actions/runs/${{ github.run_id }}"
+                          "text": "insert link",
                           "marks":[
                               {
                                 "type": "link",
@@ -98,23 +98,6 @@ jobs:
                         }
                     ]
                   },
-                  {
-                    "type":"paragraph",
-                    "content":[   
-                    ]
-                  },
-                  {
-                    "type":"codeBlock",
-                    "attrs":{
-                        
-                    },
-                    "content":[
-                        {
-                          "type": "text",
-                          "text": "Go to Workflow Run"
-                        }
-                    ]
-                  }
                 ]
                 },                
                 "issuetype": {
