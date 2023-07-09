@@ -40,6 +40,7 @@ jobs:
           )
           latest_sprint_id=$(echo "$response" | jq -r '.values | sort_by(.startDate) | last | .id')
           echo "LATEST_SPRINT_ID=$latest_sprint_id" >> $GITHUB_ENV
+          echo "${{ env.LATEST_SPRINT_ID }}"
 
       - name: Get issue type 'Task' ID
         id: issueTypes
