@@ -14,6 +14,7 @@ jobs:
       - name: Show inputs
         run: |
           echo "run_id: ${{ github.run_id }}"
+          echo "html_url: ${{ github.html_url }}"
 
       # - name: Fail step intentionally
       #   run: exit 1
