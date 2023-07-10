@@ -14,7 +14,7 @@ jobs:
       - name: Show inputs
         run: |
           echo "run_id: ${{ github.run_id }}"
-          echo "html_url: ${{ github.html_url }}"
+          echo "html_url: ${{ github.repository.html_url }}"
           echo $JSON
         env:
           JSON: ${{ toJSON(github) }}
