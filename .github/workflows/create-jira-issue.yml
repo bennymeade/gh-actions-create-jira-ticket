@@ -82,12 +82,12 @@ jobs:
                         },
                         {
                           "type": "text",
-                          "text": "https://github.com/Unilever/unilever-online/actions/runs/${{ github.run_id }}",
+                          "text": "${{ github.html_url }}/actions/runs/${{ github.run_id }}",
                           "marks":[
                               {
                                 "type": "link",
                                 "attrs":{
-                                  "href": "https://github.com/Unilever/unilever-online/actions/runs/${{ github.run_id }}"
+                                  "href": "${{ github.html_url }}/actions/runs/${{ github.run_id }}"
                                 }
                               }
                           ]
