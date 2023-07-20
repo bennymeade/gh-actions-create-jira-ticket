@@ -13,3 +13,7 @@ jobs:
           workflow: reusable/reusable-workflow.yml
           # token: ${{ secrets.JIRA_REPORTER_EMAIL }}
           # inputs: '{ "name": "Name from another workflow on push", "home": "London" }'
+
+  call-workflow-passing-data:
+    uses: ./.github/workflows/gh-reusable-workflow.yml
+    secrets: inherit
