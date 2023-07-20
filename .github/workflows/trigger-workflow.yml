@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: benc-uk/workflow-dispatch@v1
         with:
-          workflow: reusable/reusable-workflow.yml
+          workflow: reusable-workflow.yml
           # token: ${{ secrets.JIRA_REPORTER_EMAIL }}
           # inputs: '{ "name": "Name from another workflow on push", "home": "London" }'
 

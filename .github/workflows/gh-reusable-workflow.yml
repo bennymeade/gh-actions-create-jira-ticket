@@ -3,7 +3,13 @@ name: Reusable workflow example
 on:
   workflow_call:
     secrets:
-      token:
+      JIRA_REPORTER_EMAIL:
+        required: true
+      JIRA_API_TOKEN:
+        required: true
+      JIRA_BOARD_ID:
+        required: true
+      JIRA_PROJECT_KEY:
         required: true
 
 jobs:
