@@ -1,6 +1,7 @@
 name: Triggering a workflow
 on:
   workflow_dispatch:
+
 jobs:
   trigger-build:
     permissions:
@@ -12,8 +13,6 @@ jobs:
       - uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: plugin-reusable-workflow.yml
-          # token: ${{ secrets.JIRA_REPORTER_EMAIL }}
-          # inputs: '{ "name": "Name from another workflow on push", "home": "London" }'
 
   call-workflow-passing-data:
     # uses -> https://docs.github.com/en/actions/using-workflows/reusing-workflows
