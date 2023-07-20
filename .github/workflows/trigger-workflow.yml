@@ -2,7 +2,9 @@ name: Triggering a workflow
 on:
   workflow_dispatch:
 jobs:
-  invoke:
+  trigger-build:
+    permissions:
+      actions: write
     runs-on: ubuntu-latest
     name: Invoke workflow with inputs
     steps:
