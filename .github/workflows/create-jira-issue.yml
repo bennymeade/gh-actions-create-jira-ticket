@@ -1,6 +1,7 @@
 name: 'GH Actions create Jira issue'
 
-on: [workflow_dispatch, push]
+# on: [workflow_dispatch, push]
+on: [workflow_dispatch]
 
 jobs:
   tests:

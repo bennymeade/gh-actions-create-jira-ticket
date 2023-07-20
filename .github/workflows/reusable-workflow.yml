@@ -24,3 +24,13 @@ jobs:
         )
         latest_sprint_id=$(echo "$response" | jq -r '.values[0].id')
         echo "LATEST_SPRINT_ID=$latest_sprint_id" >> $GITHUB_ENV
+    
+    - name: Get issue type 'Task' ID
+      run: |
+        ISSUE_TYPES=$(curl --silent --user '${{ secrets.JIRA_REPORTER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+          --header 'Accept: application/json' \
+          --request GET \
+          --url 'https://ce-platform.atlassian.net/rest/api/3/project/${{ secrets.JIRA_PROJECT_KEY }}' | jq '.issueTypes[] | {id, name}')
+
+        TASK_ISSUE_TYPE_ID=$(echo "$ISSUE_TYPES" | jq -r 'select(.name == "Task").id')
+        echo "TASK_ISSUE_TYPE_ID=$TASK_ISSUE_TYPE_ID" >> $GITHUB_ENV
