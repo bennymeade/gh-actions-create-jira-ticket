@@ -8,12 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     name: Invoke workflow with inputs
     steps:
+      # Uses -> https://github.com/benc-uk/workflow-dispatch/tree/v1
       - uses: benc-uk/workflow-dispatch@v1
         with:
-          workflow: reusable-workflow.yml
+          workflow: plugin-reusable-workflow.yml
           # token: ${{ secrets.JIRA_REPORTER_EMAIL }}
           # inputs: '{ "name": "Name from another workflow on push", "home": "London" }'
 
   call-workflow-passing-data:
-    uses: ./.github/workflows/gh-reusable-workflow.yml
+    # uses -> https://docs.github.com/en/actions/using-workflows/reusing-workflows
+    uses: ./.github/workflows/github-reusable-workflow.yml
     secrets: inherit
