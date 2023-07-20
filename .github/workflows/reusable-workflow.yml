@@ -1,0 +1,26 @@
+name: Reusable workflow
+
+on: [workflow_dispatch]
+
+jobs:
+  tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [18]
+
+    steps:
+    - name: Set current date
+      run: |
+        echo "DATE_TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+    - name: Get latest active sprint ID
+      run: |
+        response=$(curl --silent --user '${{ secrets.JIRA_REPORTER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}' \
+          --header 'Accept: application/json' \
+          --request GET \
+          --url 'https://ce-platform.atlassian.net/rest/agile/1.0/board/${{ secrets.JIRA_BOARD_ID }}/sprint?state=active' \
+        )
+        latest_sprint_id=$(echo "$response" | jq -r '.values[0].id')
+        echo "LATEST_SPRINT_ID=$latest_sprint_id" >> $GITHUB_ENV

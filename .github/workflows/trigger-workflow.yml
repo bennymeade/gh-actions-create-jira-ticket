@@ -1,0 +1,13 @@
+name: Triggering a workflow
+on:
+  workflow_dispatch:
+jobs:
+  invoke:
+    runs-on: ubuntu-latest
+    name: Invoke workflow with inputs
+    steps:
+      - uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: reusable-workflow.yml
+          # token: ${{ secrets.JIRA_REPORTER_EMAIL }}
+          # inputs: '{ "name": "Name from another workflow on push", "home": "London" }'
